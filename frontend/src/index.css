@@ -1,0 +1,214 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-background: #f2f6fb;
+  --color-foreground: #10223a;
+  --color-primary: #0e7490;
+  --color-primary-foreground: #f8fafc;
+  --color-card: #ffffff;
+  --color-muted: #5f728c;
+  --color-border: #d3deea;
+}
+
+html,
+body,
+#root {
+  min-height: 100vh;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(900px 520px at -10% -10%, #d7f0ff 0%, transparent 65%),
+    radial-gradient(700px 420px at 110% 10%, #dff7f3 0%, transparent 60%),
+    linear-gradient(180deg, #f7fbff 0%, #edf3f9 100%);
+  color: var(--color-foreground);
+  font-family: "Manrope", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.4;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Sora", "Manrope", sans-serif;
+}
+
+.app-page {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+  padding: 1rem 0.75rem 2rem;
+}
+
+@media (min-width: 640px) {
+  .app-page {
+    padding: 1.5rem 1rem 2.5rem;
+  }
+}
+
+.app-panel {
+  border: 1px solid #d2deea;
+  border-radius: 1.2rem;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(7px);
+  box-shadow: 0 10px 30px rgba(15, 31, 53, 0.08);
+}
+
+.app-soft-panel {
+  border: 1px solid #d8e2ee;
+  border-radius: 1rem;
+  background: linear-gradient(180deg, #f9fcff 0%, #f2f7fd 100%);
+}
+
+.app-kpi {
+  border: 1px solid #d2deea;
+  border-radius: 1rem;
+  background: linear-gradient(145deg, #ffffff 0%, #f6fbff 100%);
+  box-shadow: 0 6px 20px rgba(15, 31, 53, 0.06);
+}
+
+.app-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 999px;
+  border: 1px solid #d5dfeb;
+  background: #f8fbff;
+  color: #28405f;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 0.22rem 0.55rem;
+}
+
+.app-link {
+  color: #0d6a85;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.app-link:hover {
+  text-decoration: underline;
+}
+
+.app-input,
+.app-select,
+.app-textarea {
+  width: 100%;
+  border-radius: 0.8rem;
+  border: 1px solid #c7d4e2;
+  background: #ffffff;
+  color: #10223a;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.app-input,
+.app-select {
+  height: 2.75rem;
+  padding: 0.55rem 0.8rem;
+}
+
+.app-textarea {
+  min-height: 6rem;
+  padding: 0.65rem 0.8rem;
+}
+
+.app-input:focus,
+.app-select:focus,
+.app-textarea:focus {
+  outline: none;
+  border-color: #0e7490;
+  box-shadow: 0 0 0 3px rgba(14, 116, 144, 0.18);
+}
+
+.app-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.app-table th {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #5e728d;
+  text-align: left;
+  padding: 0.55rem 0.65rem;
+}
+
+.app-table td {
+  padding: 0.7rem 0.65rem;
+  border-top: 1px solid #e3ebf3;
+  color: #21344f;
+}
+
+.app-subtle {
+  color: #58708d;
+}
+
+.app-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.app-glow::after {
+  content: "";
+  position: absolute;
+  inset: -40% -20% auto auto;
+  width: 14rem;
+  height: 14rem;
+  background: radial-gradient(circle, rgba(80, 176, 220, 0.18) 0%, rgba(80, 176, 220, 0) 70%);
+  pointer-events: none;
+}
+
+.app-flip {
+  perspective: 1000px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 1rem;
+}
+
+.app-flip-inner {
+  position: relative;
+  display: block;
+  min-height: 122px;
+  transform-style: preserve-3d;
+  transition: transform 0.45s ease;
+}
+
+.app-flip:hover .app-flip-inner {
+  transform: translateY(-2px);
+}
+
+.app-flip.is-flipped:hover .app-flip-inner {
+  transform: rotateY(180deg) translateY(-2px);
+}
+
+.app-flip.is-flipped .app-flip-inner {
+  transform: rotateY(180deg);
+}
+
+.app-flip-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  backface-visibility: hidden;
+  border-radius: 1rem;
+  border: 1px solid #d8e2ee;
+  box-shadow: 0 8px 18px rgba(22, 42, 69, 0.08);
+}
+
+.app-flip-front {
+  transform: rotateY(0deg);
+  background: linear-gradient(180deg, #ffffff 0%, #f2f8ff 100%);
+}
+
+.app-flip-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(180deg, #ebf9f6 0%, #dff3ef 100%);
+}
