@@ -1,0 +1,51 @@
+from django.contrib import admin
+
+from .models import (
+    DailyActivity,
+    LessonQuiz,
+    LearningLesson,
+    LearningLessonWord,
+    LearningTrack,
+    QuizAnswer,
+    QuizAttempt,
+    QuizChoice,
+    QuizQuestion,
+    StudyAttempt,
+    StudyDeck,
+    StudyDeckItem,
+    StudySession,
+    Topic,
+    UserLearningPath,
+    UserLessonProgress,
+    UserProfile,
+    UserFavoriteWord,
+    UserFavoriteLesson,
+    UserWordProgress,
+    VocabularyWord,
+    WordExample,
+    WordMeaning,
+)
+
+admin.site.register(Topic)
+admin.site.register(VocabularyWord)
+admin.site.register(WordMeaning)
+admin.site.register(WordExample)
+admin.site.register(UserProfile)
+admin.site.register(StudyDeck)
+admin.site.register(StudyDeckItem)
+admin.site.register(UserWordProgress)
+admin.site.register(DailyActivity)
+admin.site.register(StudySession)
+admin.site.register(StudyAttempt)
+admin.site.register(LearningTrack)
+admin.site.register(LearningLesson)
+admin.site.register(LearningLessonWord)
+admin.site.register(UserLessonProgress)
+admin.site.register(LessonQuiz)
+admin.site.register(QuizQuestion)
+admin.site.register(QuizChoice)
+admin.site.register(QuizAttempt)
+admin.site.register(QuizAnswer)
+admin.site.register(UserLearningPath)
+admin.site.register(UserFavoriteWord)
+admin.site.register(UserFavoriteLesson)
