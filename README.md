@@ -4,3 +4,5 @@
 # TAOLAMDUOCROI
 # NGAHAHA
 # BienMay
+# Taone
+# ImFrieza
