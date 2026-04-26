@@ -1,27 +1,42 @@
-# MANGUONMO_REPORT - Full Setup Guide
+# MANGUONMO_REPORT - Setup Guide (Windows/PowerShell)
 
 ## 1) Stack
 
-- Backend: Django + DRF + SimpleJWT + PostgreSQL
-- Frontend: React (Vite) + Tailwind + Radix + Zustand + Axios interceptor
+- Backend: Django 6 + DRF + SimpleJWT
+- Frontend: React (Vite) + Tailwind + Radix
+- Database hiện tại: SQLite (file `backend/db.sqlite3`)
 
 ## 2) Requirements
 
 - Python 3.12+
-- Node.js LTS
-- PostgreSQL
+- Node.js LTS + npm
+- PowerShell
 
-## 3) Backend setup
+## 3) Cài đặt lần đầu
 
-### 3.1 Install dependencies
+Chạy tại thư mục gốc project:
 
 ```powershell
+python -m venv venv
+venv\Scripts\python.exe -m pip install --upgrade pip
 venv\Scripts\python.exe -m pip install -r backend\requirements.txt
+
+cd frontend
+npm install
+cd ..
 ```
 
-### 3.2 Configure env
+## 4) Cấu hình môi trường
 
-File: `backend/.env`
+### 4.1 Backend `.env`
+
+Nếu chưa có file `backend/.env`:
+
+```powershell
+Copy-Item backend\.env.example backend\.env
+```
+
+Nội dung mẫu:
 
 ```env
 DEBUG=True
@@ -30,7 +45,7 @@ ALLOWED_HOSTS=127.0.0.1,localhost,testserver
 
 DB_NAME=learn_English
 DB_USER=postgres
-DB_PASSWORD=123321!@
+DB_PASSWORD=your_password_here
 DB_HOST=localhost
 DB_PORT=5432
 
@@ -39,7 +54,13 @@ CORS_ALLOW_CREDENTIALS=True
 CSRF_TRUSTED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
 ```
 
-### 3.3 Migrate + seed
+Luu y: hien tai `backend/config/settings.py` dang dung SQLite mac dinh, nen `DB_*` chua duoc ap dung.
+
+### 4.2 Frontend `.env`
+
+Khong bat buoc cho local dev vi Vite dang proxy `/api` sang `http://localhost:8000`.
+
+## 5) Khoi tao database va data mau
 
 ```powershell
 venv\Scripts\python.exe backend\manage.py migrate
@@ -51,51 +72,69 @@ Demo account:
 - username: `demo_user`
 - password: `Demo12345!`
 
-### 3.4 Run backend
+## 6) Chay du an
+
+Mo 2 terminal rieng.
+
+Terminal 1 (backend):
 
 ```powershell
-venv\Scripts\python.exe backend\manage.py runserver
+venv\Scripts\python.exe backend\manage.py runserver 127.0.0.1:8000
 ```
 
-Backend URLs:
-
-- Root: `http://127.0.0.1:8000/`
-- Admin: `http://127.0.0.1:8000/admin/`
-- API root: `http://127.0.0.1:8000/api/health/`
-
-## 4) Frontend setup
-
-### 4.1 Install dependencies
+Terminal 2 (frontend):
 
 ```powershell
 cd frontend
-npm install
+npm run dev -- --host 127.0.0.1 --port 5173
 ```
 
-If `npm` is not recognized in PowerShell session:
+URL:
+
+- Frontend: `http://127.0.0.1:5173/`
+- Backend root: `http://127.0.0.1:8000/`
+- Backend health: `http://127.0.0.1:8000/api/health/`
+- Admin: `http://127.0.0.1:8000/admin/`
+
+## 7) Verify nhanh
+
+1. Mo `http://127.0.0.1:8000/api/health/` (phai tra ve HTTP 200).
+2. Mo `http://127.0.0.1:5173/`.
+3. Dang nhap bang `demo_user / Demo12345!`.
+4. Vao `/onboarding` -> `/dashboard` -> lam 1 quiz.
+
+## 8) Loi thuong gap
+
+### 8.1 `npm` khong nhan lenh
 
 ```powershell
 $env:Path = "C:\Program Files\nodejs;" + $env:Path
 ```
 
-### 4.2 Frontend env
+### 8.2 Cong 8000 hoac 5173 da duoc dung
 
-File: `frontend/.env`
-
-```env
-VITE_API_BASE_URL=http://127.0.0.1:8000/api
-```
-
-### 4.3 Run frontend
+Kiem tra process dang chiem cong:
 
 ```powershell
-cd frontend
-npm run dev
+Get-NetTCPConnection -State Listen | Where-Object { $_.LocalPort -in 8000,5173 } | Select-Object LocalPort,OwningProcess
 ```
 
-Frontend URL: `http://localhost:5173`
+Dung process theo PID:
 
-## 5) Main user screens
+```powershell
+Stop-Process -Id <PID>
+```
+
+## 9) Tat server
+
+- Cach dung terminal: `Ctrl + C`
+- Hoac dung PowerShell:
+
+```powershell
+Stop-Process -Name python,node -Force
+```
+
+## 10) Main user screens
 
 - `/login`: login
 - `/register`: register
@@ -110,7 +149,7 @@ Frontend URL: `http://localhost:5173`
 - `/settings`: profile + daily goal + learning goal + level
 - `/words`: CRUD vocabulary (chi staff/admin noi bo)
 
-## 6) Main APIs
+## 11) Main APIs
 
 Auth:
 
@@ -150,12 +189,3 @@ Vocabulary CRUD:
 - `GET/POST /api/topics/`
 - `GET/POST /api/meanings/`
 - `GET/POST /api/examples/`
-
-## 7) Quick verify flow
-
-1. Login with `demo_user / Demo12345!`
-2. Go `/onboarding` and complete placement + learning path.
-3. Open `/dashboard`, click `Mo bai hoc`.
-4. In lesson detail, click `Lam quiz ngay`.
-5. Submit quiz and verify result + explanation.
-6. Open `/progress` to see heatmap and weak tags.
